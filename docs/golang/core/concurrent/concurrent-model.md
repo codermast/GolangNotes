@@ -289,7 +289,6 @@ func producer(id int, jobs chan<- int, wg *sync.WaitGroup) {
 
 // 消费者函数从通道接收数据并处理
 func consumer(id int, jobs <-chan int, wg *sync.WaitGroup) {
-    defer wg.Done()
     for j := range jobs {
         fmt.Printf("Consumer %d processing job %d\n", id, j)
         time.Sleep(time.Second)
@@ -308,7 +307,6 @@ func main() {
 
     // 启动消费者 Goroutine
     for c := 1; c <= 2; c++ {
-        wg.Add(1)
         go consumer(c, jobs, &wg)
     }
 
